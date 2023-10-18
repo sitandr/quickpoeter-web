@@ -11,8 +11,8 @@ mod highlighter;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
-#[serde(default)] // if we add new fields, give them default values when deserializing old state
-pub struct TemplateApp {
+#[serde(default)]
+pub struct QuickpoeterApp {
     #[serde(skip)]
     rhyme_word: String,
     #[serde(skip)]
@@ -141,7 +141,7 @@ impl Theme {
     }
 }
 
-impl Default for TemplateApp {
+impl Default for QuickpoeterApp {
     fn default() -> Self {
         Self {
             // Example stuff:
@@ -164,7 +164,7 @@ lazy_static! {
     static ref MEAN_STR_THEMES: MeanStrThemes = MeanStrThemes::default();
 }
 
-impl TemplateApp {
+impl QuickpoeterApp {
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // This is also where you can customize the look and feel of egui using
@@ -180,7 +180,7 @@ impl TemplateApp {
     }
 }
 
-impl eframe::App for TemplateApp {
+impl eframe::App for QuickpoeterApp {
     /// Called by the frame work to save state before shutdown.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, eframe::APP_KEY, self);
@@ -283,7 +283,7 @@ impl eframe::App for TemplateApp {
     }
 }
 
-impl TemplateApp {
+impl QuickpoeterApp {
     fn show_settings_window(&mut self, ctx: &egui::Context) {
         egui::Window::new("Параметры подбора рифмы").open(&mut self.show_settings).show(ctx, |ui| {
 
