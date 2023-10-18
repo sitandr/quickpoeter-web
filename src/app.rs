@@ -102,21 +102,19 @@ impl eframe::App for TemplateApp {
                         family: egui::FontFamily::Monospace,
                     });
 
-                    if ui.add(input).lost_focus() {
-                        if ctx.input(|i| i.key_pressed(egui::Key::Enter)) {
-                            self.rhyme_output = string2word(&WORD_COLLECTOR, &self.rhyme_word)
-                                .and_then(|word| {
-                                    find(
-                                        &WORD_COLLECTOR,
-                                        &self.general_settings,
-                                        word,
-                                        None,
-                                        &[],
-                                        10,
-                                    )
-                                    .map(|r| r.into_iter().map(|r| r.word.src.clone()).collect())
-                                })
-                        };
+                    if ui.add(input).lost_focus() && ctx.input(|i| i.key_pressed(egui::Key::Enter)) {
+                        self.rhyme_output = string2word(&WORD_COLLECTOR, &self.rhyme_word)
+                            .and_then(|word| {
+                                find(
+                                    &WORD_COLLECTOR,
+                                    &self.general_settings,
+                                    word,
+                                    None,
+                                    &[],
+                                    10,
+                                )
+                                .map(|r| r.into_iter().map(|r| r.word.src.clone()).collect())
+                            })
                     }
                 });
 
@@ -178,7 +176,7 @@ impl TemplateApp {
     fn show_theme_window(&mut self, ctx: &egui::Context) {
         egui::Window::new("Параметры подбора рифмы").show(ctx, |ui| {
             ComboBox::from_label("Встроенная тема")
-                .selected_text(self.theme.as_ref().map(|s| s.as_str()).unwrap_or(""))
+                .selected_text(self.theme.as_deref().unwrap_or(""))
                 .show_ui(ui, |ui| {
                     ui.selectable_value(&mut self.theme, None, "Без темы");
 
