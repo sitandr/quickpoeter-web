@@ -7,7 +7,8 @@ rust-version = "1.71"
 
 
 [dependencies]
-quickpoeter = { path = "../quickpoeter/" }
+# quickpoeter = { path = "../quickpoeter/" }
+quickpoeter = { git = "https://github.com/sitandr/quickpoeter_core" }
 
 egui = "0.23.0"
 eframe = { version = "0.23.0", default-features = false, features = [
@@ -21,6 +22,7 @@ log = "0.4"
 # You only need serde if you want app persistence:
 serde = { version = "1", features = ["derive"] }
 lazy_static = "1.4.0"
+clru = "0.6.1"
 
 # native:
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
@@ -32,7 +34,7 @@ wasm-bindgen-futures = "0.4"
 
 
 [profile.release]
-opt-level = 2 # fast and small wasm
+opt-level = 3 # fast is _vital_ there
 
 # Optimize all dependencies even in debug builds:
 [profile.dev.package."*"]
